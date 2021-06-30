@@ -26,9 +26,32 @@ function pop() {
     }
 }
 
-// Parte do código que usa a pilha
-push(10)
-push(20)
-push(30)
+function estaVazia() {
+    return topo == -1
+}
 
-console.log(elementos);
+// Parte do código que usa a pilha
+
+// push(10)
+// push(20)
+// push(30)
+
+// console.log(elementos)
+// console.log(pop())
+// console.log(pop())
+// console.log(pop())
+
+// Exercício de transformar número decimal em binário
+
+var numDecimal = 10
+var resto
+
+while (numDecimal != 0) {
+    resto = parseInt(numDecimal % 2)
+    push(resto)
+    numDecimal = parseInt(numDecimal / 2)
+}
+
+while (!estaVazia()){
+    console.log(pop());
+}
