@@ -1,0 +1,31 @@
+/* Variables */
+:root {
+  --rebel-pink: #f71963;
+  --heavy-rebel-pink: #dd1659;
+  --elite-purple: #8914cc;
+  --near-black: #3f3f40;
+  --dark-gray: #585959;
+  --mid-gray: #727273;
+  --gray: #979899;
+  --silver: #cacbcc;
+}
+
+h1 {
+  color: var(--rebel-pink);
+}
+
+h2 {
+  color: var(--near-black);
+}
+
+.bt-bg {
+  background-color: var(--rebel-pink);
+}
+
+.bt-bg:hover {
+  background-color: var(--elite-purple);
+}
+
+.border-color {
+  color: var(--near-black);
+}
