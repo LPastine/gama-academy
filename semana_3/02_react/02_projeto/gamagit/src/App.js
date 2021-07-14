@@ -3,7 +3,8 @@ import React from 'react'
 function App() {
   return (
     <>
-      <h1>GamaGit</h1>
+      <input name="usuario" id="usuario" className="usuarioInput" placeholder="Usuário" />
+      <button type="button">Pesquisar</button>
     </>
   );
 }

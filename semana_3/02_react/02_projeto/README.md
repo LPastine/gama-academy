@@ -1,5 +1,7 @@
 # GamaGit
 
+Esse é um projeto que tem como fim procurar os repositórios publicados por usuários do GitHub.
+
 ## Preparando o ambiente
 
 Instalar:
@@ -51,4 +53,29 @@ import ReactDOM from 'react-dom'
 import App from './App'
 
 ReactDOM.render(<App />, document.getElementById('root'))
+```
+
+## Montar searchbar base do projeto
+
+- Retornar um input tag desde o App para inserir o nome do usuário a ser procurado no GitHub
+- Adicionar um button para pesquisar o usuário
+
+```js
+import React from 'react'
+
+function App() {
+  return (
+    <>
+      <input
+        name='usuario'
+        id='usuario'
+        className='usuarioInput'
+        placeholder='Usuário'
+      />
+      <button type='button'>Pesquisar</button>
+    </>
+  )
+}
+
+export default App
 ```
