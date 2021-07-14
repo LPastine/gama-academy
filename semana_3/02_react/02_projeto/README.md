@@ -154,3 +154,60 @@ function App() {
 
 export default App
 ```
+
+## Criar componente para expor os repositories (Repositories.js)
+
+- Importar react
+- Criar o componente
+
+- Instalar react-router-dom para fazer o roteamento entre componentes
+
+```zsh
+npm install react-router-dom
+```
+
+- Criar routes.js para manipular as rotas
+- Criar um react arrow function component 'Route'
+- Importar Switch, Route, BrowserRouter de react-router-dom
+
+> routes.js
+
+```js
+import React from 'react'
+import { Switch, Route, BrowserRouter } from 'react-router-dom'
+
+import Repositories from './Repositories'
+
+const Routes = () => {
+  return (
+    <BrowserRouter>
+      <Switch>
+        <Route path='/repositories' component={Repositories} />
+      </Switch>
+    </BrowserRouter>
+  )
+}
+
+export default Routes
+```
+
+## Configurar rotas
+
+- Criar um Home.js component para levar tudo que foi feito no App.js
+- Deixar o App.js básico
+- Importar Routes component
+
+> App.js
+
+```js
+import React from 'react'
+import Routes from './routes'
+
+function App() {
+  return <Routes />
+}
+
+export default App
+```
+
+- Configurar o Routes component
