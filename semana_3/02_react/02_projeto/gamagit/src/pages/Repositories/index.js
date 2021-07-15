@@ -20,6 +20,7 @@ const Repositories = () => {
                     )
                 }) }
             </S.List>
+            <S.LinkHome to="/">Voltar</S.LinkHome>
         </S.Container>
     )
 }

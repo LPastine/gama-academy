@@ -510,4 +510,43 @@ const Repositories = () => {
 }
 ```
 
+## Continuar com roteamento do site
 
+- Importar Link do react-router-dom
+- Adicionar botão de voltar no Repositories
+
+> Repositories/index.js
+
+```js
+<Link to="/">Voltar</Link>
+```
+
+- Estilizar o Link component
+
+Devido ao fato que não se consegue estilizar um react component da mesma forma que um html tag, precisamos fazer o seguinte:
+
+- Importar o Link component em /styled.js
+- Exportar uma const LinkHome estilizada
+
+> Repositories/styled.js
+
+```js
+export const LinkHome = styled(Link)`
+    display: block;
+    width: 4rem;
+    text-align: center;
+    margin: 2rem auto;
+    background-color: #000;
+    padding: .5rem 0;
+    color: #fff;
+    text-decoration: none;
+`
+```
+
+- Importar a variável no Repositores e trocar o nome do tag
+
+> Repositories/index.js
+
+```js
+<S.LinkHome to="/">Voltar</S.LinkHome>
+```
