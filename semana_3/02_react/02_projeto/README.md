@@ -233,3 +233,154 @@ const Routes = () => {
 
 export default Routes
 ```
+
+## Organizar código em pastas
+
+- Criar pasta components
+- Criar pasta pages
+- Pasta Home e Repositories dentro da pasta pages
+- Mover o Home.js e Repositories.js em cada pasta e trocar o seu nome para index.js
+
+## Styled components
+
+- Instalar styled components
+
+```zsh
+npm install styled-components
+```
+
+- Criar arquivo styled.js no Repositories para estilar o componente
+
+> Repositories/styled.js
+
+```js
+import styled from 'styled-components'
+
+export const Container = styled.div`
+  width: 100%;
+  max-width: 991px;
+  margin: 0 auto;
+`
+
+export const Title = styled.h1`
+  text-align: center;
+  font-size: 2rem;
+  font-family: sans-serif;
+  color: #333;
+`
+
+export const List = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-family: sans-serif;
+`
+
+export const ListItem = styled.li`
+  margin: 0.5rem 0;
+  background: #000;
+  color: #fff;
+  padding: 0.5rem;
+`
+```
+
+- Importar o styled component ao Repositories/index.js para estilar o componente
+
+> Repositories/index.js
+
+```js
+import React from 'react'
+import * as S from './styled'
+
+const Repositories = () => {
+  return <S.Title>Repositories</S.Title>
+}
+
+export default Repositories
+```
+
+- Criar arquivo styled.js no Home para estilar o componente
+
+> Home/styled.js
+
+```js
+import styled from 'styled-components'
+
+export const Container = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+export const Input = styled.input`
+  border: 1px solid #ddd;
+  height: 1.5rem;
+  padding: 0 0.5rem;
+  border-radius: 0.25rem;
+
+  &:focus,
+  &:active {
+    outline: none;
+    box-shadow: none;
+  }
+`
+
+export const Button = styled.button`
+    height: 1.5rem;
+    border: 1px solid #000;
+    background: #000;
+    color: #fff;
+    border-radius: 0 .25rem .25rem 0;
+
+    &:focus,
+    &:active {
+        outline: none;
+        box-shadow: none;
+`
+```
+
+- Adicionar esses estilos ao Home component
+
+```js
+import React, { useState } from 'react'
+import axios from 'axios'
+import * as S from './styled'
+
+function App() {
+  const [usuario, setUsuario] = useState('')
+
+  const handlePesquisa = async () => {
+    const res = await axios.get(`https://api.github.com/users/${usuario}/repos`)
+    console.log(res.data)
+  }
+  return (
+    <S.Container>
+      <S.Input
+        className='usuarioInput'
+        placeholder='Usuário'
+        value={usuario}
+        onChange={(e) => setUsuario(e.target.value)}
+      />
+      <S.Button type='button' onClick={handlePesquisa}>
+        Pesquisar
+      </S.Button>
+    </S.Container>
+  )
+}
+
+export default App
+```
+
+- Criar style.css para estilar o App.js da root
+
+> style.css
+
+```css
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+}
+```
