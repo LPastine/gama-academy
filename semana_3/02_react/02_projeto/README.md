@@ -384,3 +384,130 @@ body {
   height: 100vh;
 }
 ```
+
+## Adicionar os repositories do GitHub ao LS
+
+- Almacenar os dados da response em uma variável repositories
+- Criar um array vazio onde vão ser almacenados os nomes dos repositories
+- Mapear os repositories e almacenar o nome do repository dentro do array
+- Salvar o array em LS, lembrar-se de transformar para formato String
+
+> Home/index.js
+
+```js
+import React, { useState } from 'react'
+import axios from 'axios'
+import * as S from './styled'
+
+function App() {
+  const [ usuario, setUsuario ] = useState('')
+  
+  const handlePesquisa = async () => {
+    const res = await axios.get(`https://api.github.com/users/${usuario}/repos`)
+    const repositories = res.data
+    const repositoriesName = []
+    repositories.map((repository) => {
+      repositoriesName.push(repository.name)
+    })
+    localStorage.setItem('repositoriesName', JSON.stringify(repositoriesName))
+  }
+  return (
+    <S.Container>
+      <S.Input className="usuarioInput" placeholder="Usuário" value={usuario} onChange={(e) => setUsuario(e.target.value)} />
+      <S.Button 
+        type="button"
+        onClick={handlePesquisa}
+      >Pesquisar</S.Button>
+    </S.Container>
+  );
+}
+
+export default App;
+```
+
+## Adicionar funcionalidade de mudar as páginas com react-router-dom
+
+- Importar e usar useHistory hook
+- Adicionar um push history ao botão de Pesquisar depois de ter salvo os dados em LS
+
+>Home/index.js
+
+```js
+import React, { useState } from 'react'
+import axios from 'axios'
+import * as S from './styled'
+import { useHistory } from 'react-router-dom'
+
+function App() {
+  const history = useHistory()
+
+  const [ usuario, setUsuario ] = useState('')
+  
+  const handlePesquisa = async () => {
+    const res = await axios.get(`https://api.github.com/users/${usuario}/repos`)
+    const repositories = res.data
+    const repositoriesName = []
+    repositories.map((repository) => {
+      repositoriesName.push(repository.name)
+    })
+    localStorage.setItem('repositoriesName', JSON.stringify(repositoriesName))
+    history.push('/repositories')
+  }
+  return (
+    <S.Container>
+      <S.Input className="usuarioInput" placeholder="Usuário" value={usuario} onChange={(e) => setUsuario(e.target.value)} />
+      <S.Button 
+        type="button"
+        onClick={handlePesquisa}
+      >Pesquisar</S.Button>
+    </S.Container>
+  );
+}
+
+export default App;
+```
+
+## Display os resultados na page de repositories
+
+### useEffect Hook
+
+Fica monitorando uma mudança de uma variável e vai disparar uma função quando essa variável for alterada.
+
+- Importar e usar o useState Hook
+- Criar um estado para repositories que seja inicialmente um array vazio
+- Importar e usar o useEffect Hook 
+- Pegar os dados do LS e os salvar em uma variável repositoriesName
+- Parsear os elementos e os salvar dentro da variável
+- Chamar a função do estado de repositories para que receba esses elementos
+- Limpar o LS depois disso
+- Criar uma lista com uma lógica para mapear os elementos do estado repositories e retorne dentro de um List.Item
+
+```js
+import React, { useEffect, useState} from 'react'
+import * as S from './styled'
+
+const Repositories = () => {
+    const [ repositories, setRepositories ] = useState([])
+
+    useEffect(() => {
+        let repositoriesName = localStorage.getItem('repositoriesName')
+        repositoriesName = JSON.parse(repositoriesName)
+        setRepositories(repositoriesName)
+        localStorage.clear()
+    }, [])
+    return (
+        <S.Container>
+            <S.Title>Repositories</S.Title>
+            <S.List>
+                { repositories.map(repository => {
+                    return (
+                        <S.ListItem>{ repository }</S.ListItem>
+                    )
+                }) }
+            </S.List>
+        </S.Container>
+    )
+}
+```
+
+
