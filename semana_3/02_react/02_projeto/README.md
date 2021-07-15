@@ -594,3 +594,86 @@ const Repositories = () => {
 
 export default Repositories
 ```
+
+## Conditional Rendering
+
+Você vai renderizar ou não um elemento baseado em uma condição
+
+- Criar um styled component para ErrorMsg no Home
+- Criar um HomeContainer style component também
+
+> Home/styled.js
+```js
+export const HomeContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+`
+
+export const Content = styled.div`
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`
+
+export const ErrorMsg = styled.span`
+    display: block;
+    font-size: 0.8rem;
+    color: red;
+    font-weight: 600;
+    margin-top: 1rem;
+`
+```
+
+- Criar o conditional rendering para esse ErrorMsg
+- Criar estado Erro que seja inicialmente false
+- Adicionar trycatch para lidar com o erro, e que faça o estado de erro se tornar true
+
+> Home/index.js
+
+```js
+import React, { useState } from 'react'
+import axios from 'axios'
+import * as S from './styled'
+import { useHistory } from 'react-router-dom'
+
+function App() {
+  const history = useHistory()
+
+  const [ usuario, setUsuario ] = useState('')
+  const [ erro, setErro ] = useState(false)
+  
+  const handlePesquisa = async () => {
+    try {
+      const res = await axios.get(`https://api.github.com/users/${usuario}/repos`)
+      const repositories = res.data
+      const repositoriesName = []
+      repositories.map((repository) => {
+        return repositoriesName.push(repository.name)
+      })
+      localStorage.setItem('repositoriesName', JSON.stringify(repositoriesName))
+      setErro(false)
+      history.push('/repositories')
+    } catch (error) {
+      setErro(true)
+    }
+  }
+  return (
+    <S.HomeContainer>
+      <S.Content>
+        <S.Input className="usuarioInput" placeholder="Usuário" value={usuario} onChange={(e) => setUsuario(e.target.value)} />
+        <S.Button 
+          type="button"
+          onClick={handlePesquisa}
+        >Pesquisar</S.Button>
+      </S.Content>
+      { erro ? <S.ErrorMsg>Ocorreu um erro. Tente novamente.</S.ErrorMsg> : '' }
+    </S.HomeContainer>
+  );
+}
+
+export default App;
+```
