@@ -1,13 +1,13 @@
 import React from 'react'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
-import Home from './Home'
-import Repositories from './Repositories'
+import App from './pages/Home'
+import Repositories from './pages/Repositories'
 
 const Routes = () => {
     return (
         <BrowserRouter>
             <Switch>
-                <Route path='/' component={Home} exact />
+                <Route path='/' component={App} exact />
                 <Route path='/repositories' component={Repositories} />
             </Switch>
         </BrowserRouter>

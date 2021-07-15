@@ -1,8 +1,9 @@
 import React from 'react'
+import * as S from './styled'
 
 const Repositories = () => {
     return (
-        <h1>Repositories</h1>
+        <S.Title>Repositories</S.Title>
     )
 }
 
