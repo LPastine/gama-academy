@@ -160,6 +160,8 @@ export default App
 - Importar react
 - Criar o componente
 
+## Fazer roteamento em routes.js
+
 - Instalar react-router-dom para fazer o roteamento entre componentes
 
 ```zsh
