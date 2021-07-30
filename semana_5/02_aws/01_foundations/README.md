@@ -55,7 +55,7 @@ A infraestrutura global da AWS é o ambiente de computação em nuvem mais segur
 
 A infraestrutura da Nuvem AWS é criada em torno de regiões. A AWS tem 22 regiões em todo o mundo. As regiões estão isoladas umas das outras. Os recursos de uma região não são replicados automaticamente em outras regiões. Quando você armazena dados em uma região específica, eles não são replicados fora dessa região. É sua responsabilidade, como cliente replicar dados entre regiões, caso suas necessidades empresariais exijam isso.
 
-- Região: localização geográfica com uma ou mais Zonas de Disponibilidades.
+- Região: localização geográfica com uma (duas segundo o outro curso) ou mais Zonas de Disponibilidades.
 - Zonas de disponibilidade: consistem em um ou mais datacenters para conseguir tolerância a falhas e estabilidade.
 
 Fatores a serem considerados ao selecionar uma ou mais regiões ideais onde armazenar os dados e seus serviços da AWS.
