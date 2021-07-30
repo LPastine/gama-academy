@@ -181,3 +181,248 @@ Savings Plans do Amazon EC2 são ideais para cargas de trabalho que envolvem uma
 
 Instâncias Spot:
 Instâncias spot são ideais para cargas de trabalho com horários de início e término flexíveis ou que podem suportar interrupções. Com as instâncias spot, você pode reduzir seus custos de computação em até 90% em relação aos custos sob demanda. Diferentemente dos Savings Plans do Amazon EC2, as instâncias spot não exigem contratos ou um compromisso com uma quantidade consistente de uso de computação.
+
+# Escalabilidade do Amazon EC2
+
+A escalabilidade envolve começar apenas com os recursos de que você precisa e projetar sua arquitetura para responder automaticamente às alterações de demanda, aumentando ou reduzindo. Como resultado, você paga apenas pelos recursos que usa. Você não precisa se preocupar com a falta de capacidade de computação para atender às necessidades de seus clientes.
+
+Se você quisesse que o processo de escalabilidade acontecesse automaticamente, qual serviço da AWS você usaria? O serviço da AWS que fornece essa funcionalidade para instâncias do Amazon EC2 é o Amazon EC2 Auto Scaling.
+
+## Amazon EC2 Auto Scaling
+
+O Amazon EC2 Auto Scaling permite que você adicione ou remova automaticamente instâncias do Amazon EC2 em resposta à alteração da demanda da aplicação. Ao escalar automaticamente suas instâncias aumentando ou reduzindo conforme necessário, você consegue manter uma maior sensação de disponibilidade de aplicações.
+
+No Amazon EC2 Auto Scaling, você pode usar duas abordagens: escalabilidade dinâmica e escalabilidade preditiva.
+
+- Escalabilidade dinâmica responde às alterações na demanda.
+- Escalabilidade preditiva programa automaticamente o número correto de instância do Amazon EC2 com base na demanda prevista.
+
+Para dimensionar mais rapidamente, você pode usar a escalabilidade dinâmica e a escalabilidade preditiva juntas.
+
+Configurar o Auto Scaling:
+
+- Capacidade mínima
+  Ao criar um grupo de Auto Scaling, você pode definir o número mínimo de instâncias do Amazon EC2. A capacidade mínima é o número de instâncias do Amazon EC2 que são iniciadas imediatamente após a criação do grupo de Auto Scaling. Neste exemplo, o grupo de Auto Scaling tem uma capacidade mínima de uma instância do Amazon EC2.
+
+- Capacidade desejada
+  Em seguida, você pode definir a capacidade desejada em duas instâncias do Amazon EC2, mesmo que sua aplicação precise de um mínimo de uma única instância do Amazon EC2 para ser executada.
+
+Se você não especificar o número desejado de instâncias do Amazon EC2 em um grupo de Auto Scaling, a capacidade desejada assumirá o padrão de sua capacidade mínima.
+
+- Capacidade máxima
+  A terceira configuração que você pode definir em um grupo de Auto Scaling é a capacidade máxima. Por exemplo, você pode configurar o grupo de Auto Scaling para reduzir em resposta ao aumento da demanda, mas apenas para um máximo de quatro instâncias do Amazon EC2.
+
+Como o Amazon EC2 Auto Scaling usa instâncias do Amazon EC2, você paga apenas pelas instâncias usadas quando as usa. Você agora tem uma arquitetura econômica que fornece a melhor experiência ao cliente e ao mesmo tempo reduz os custos.
+
+# Direcionamento de tráfego com o Elastic Load Balancing
+
+Elastic Load Balancing é o serviço da AWS que distribui automaticamente o tráfego de entrada de aplicações entre vários recursos, como instâncias do Amazon EC2.
+
+Um balanceador de carga atua como um ponto único de contato para todo o tráfego da Web de entrada no seu grupo de Auto Scaling. Isso significa que, à medida que você adiciona ou remove instâncias do Amazon EC2 em resposta à quantidade de tráfego de entrada, essas solicitações são encaminhadas para o load balancer primeiro. Em seguida, as solicitações se espalham por vários recursos que lidarão com elas. Por exemplo, se você tiver várias instâncias do Amazon EC2, o Elastic Load Balancing distribuirá a carga de trabalho entre as várias instâncias, de modo que nenhuma instância tenha que carregar a maior parte dela.
+
+Embora o Elastic Load Balancing e o Amazon EC2 Auto Scaling sejam serviços separados, eles trabalham juntos para ajudar a garantir que as aplicações executadas no Amazon EC2 possam fornecer alta performance e disponibilidade.
+
+# Mensagens e enfileiramento
+
+## Aplicações monolíticas e microsserviços
+
+As aplicações são feitas de vários componentes. Os componentes se comunicam entre si para transmitir dados, atender solicitações e manter a aplicação em execução.
+
+- Aplicação monolítica
+  Suponha que você tenha uma aplicação com componentes bem acoplados. Esses componentes podem incluir bancos de dados, servidores, a interface do usuário, lógica de negócios e assim por diante. Esse tipo de arquitetura pode ser considerado uma aplicação monolítica.
+
+Nessa abordagem à arquitetura da aplicação, se um único componente falhar, outros componentes falharão e, possivelmente, toda a aplicação falhará.
+
+Para ajudar a manter a disponibilidade da aplicação quando um único componente falha, você pode projetar sua aplicação por meio de uma abordagem de microsserviços.
+
+- Microsserviços
+  Em uma abordagem de microsserviços, os componentes da aplicação são acoplados vagamente. Nesse caso, se um único componente falhar, os outros componentes continuarão a funcionar porque eles estarão se comunicando uns com os outros. O baixo acoplamento evita que toda a aplicação falhe.
+
+Ao projetar aplicações na AWS, você pode adotar uma abordagem de microsserviços com serviços e componentes que cumprem funções diferentes. Dois serviços facilitam a integração de aplicações: Amazon Simple Notification Service (Amazon SNS) e Amazon Simple Queue Service (Amazon SQS).
+
+## Amazon Simple Notification Service (Amazon SNS)
+
+Amazon Simple Notification Service (Amazon SNS) é um serviço de publicação/assinatura. Usando tópicos do Amazon SNS, um editor publica mensagens para assinantes. Isso é semelhante ao café; o caixa fornece pedidos de café para o barista que faz as bebidas.
+
+No Amazon SNS, os assinantes podem ser servidores Web, endereços de e-mail, funções do AWS Lambda ou várias outras opções.
+
+é usado para enviar mensagens aos serviços, mas também pode enviar notificações aos usuários finais. Ele faz isso de uma maneira diferente chamada de modelo de publicação/assinatura ou pub/sub. Isso significa que você pode criar algo chamado tópico do SNS que é apenas um canal para mensagens a serem entregues. Você, então, configura os assinantes desse tópico e, finalmente, publica mensagens para esses assinantes. Na prática, isso significa que você pode enviar uma mensagem para um tópico que, em seguida, se espalhará a todos os assinantes de uma só vez. Esses assinantes também podem ser endpoints como filas SQS, funções do AWS Lambda e os Web hooks HTTPS ou HTTP.
+
+Além disso, o SNS pode ser usado para liberar notificações para usuários finais usando push móvel, SMS e e-mail.
+
+## Amazon Simple Queue Service (Amazon SQS)
+
+Amazon Simple Queue Service (Amazon SQS) é um serviço de enfileiramento de mensagens.
+
+Use o Amazon SQS para enviar, armazenar e receber mensagens entre componentes de software, sem perder mensagens ou precisar que outros serviços estejam disponíveis. No Amazon SQS, uma aplicação envia mensagens para uma fila. Um usuário ou serviço recupera uma mensagem da fila, a processa e a exclui da fila.
+
+O SQS permite que você envie, armazene e receba mensagens entre componentes de software em qualquer volume. Isto é, sem perder mensagens ou exigindo a disponibilidade de outros serviços. Pense nas mensagens como nossos pedidos de café e o quadro de pedido como uma fila SQS. As mensagens têm o nome da pessoa, o pedido de café, e o horário em que o pedido foi feito. Os dados contidos em uma mensagem são chamados de carga útil e estão protegidos até a entrega. As filas SQS são onde as mensagens são colocadas até que sejam processadas. E a AWS gerencia a infraestrutura subjacente para você hospedar essas filas. Essas filas são dimensionadas automaticamente, são confiáveis e são fáceis de configurar e usar.
+
+## Teste de conhecimento
+
+- Qual serviço da AWS é a melhor opção para publicar mensagens para assinantes?
+
+a) SQS
+b) EC2 Auto Scaling
+c) SNS
+d) Elastic Load Balancing
+
+## Comentário
+
+A resposta correta é B, Amazon Simple Notification Service (Amazon SNS).
+
+O Amazon SNS é um serviço de publicação/assinatura. Usando tópicos do Amazon SNS, um editor publica mensagens para assinantes.
+
+As outras respostas estão incorretas porque:
+
+Amazon Simple Queue Service (Amazon SQS) é um serviço de enfileiramento de mensagens. Ele não usa a assinatura de mensagem e o modelo de tópico envolvidos com o Amazon SNS.
+
+O Amazon EC2 Auto Scaling permite que você adicione ou remova automaticamente instâncias do Amazon EC2 em resposta à alteração da demanda da aplicação.
+
+O Elastic Load Balancing é o serviço da AWS que distribui automaticamente o tráfego de entrada de aplicações entre vários recursos, como instâncias do Amazon EC2.
+
+# Serviços de computação adicionais
+
+## Computação sem servidor
+
+O termo “sem servidor” significa que seu código é executado em servidores, mas você não precisa provisionar ou gerenciar esses servidores. Com a computação sem servidor, você pode se concentrar mais na inovação de novos produtos e recursos em vez de manter servidores.
+
+Outro benefício da computação sem servidor é a flexibilidade de dimensionar aplicações sem servidor automaticamente. A computação sem servidor pode ajustar a capacidade das aplicações modificando as unidades de consumo, como taxa de transferência e memória.
+
+Um serviço da AWS para computação sem servidor é o AWS Lambda.
+
+## AWS Lambda
+
+O AWS Lambda é um serviço que permite a execução de códigos sem a necessidade de provisionar ou gerenciar servidores.
+
+Ao usar o AWS Lambda, você paga apenas pelo tempo de computação que consumir. As cobranças se aplicam somente quando seu código está em execução. Você pode executar códigos para praticamente qualquer tipo de aplicação ou serviço de back-end sem necessidade de qualquer administração.
+
+Por exemplo, uma função simples do Lambda pode envolver o redimensionamento automático de imagens com o upload feito na Nuvem AWS. Nesse caso, a função é acionada ao carregar uma nova imagem.
+
+## Contêineres
+
+Os contêineres fornecem uma maneira padrão de empacotar códigos, configurações e dependências de sua aplicação em um único objeto. Você também pode usar contêineres para processos e fluxos de trabalho nos quais há requisitos essenciais de segurança, confiabilidade e escalabilidade.
+
+## Amazon Elastic Container Service (Amazon ECS)
+
+O Amazon Elastic Container Service (Amazon ECS) é um sistema de gerenciamento de contêineres altamente escalável e de alta performance que permite executar e escalar aplicações em contêineres na AWS.
+
+O Amazon ECS oferece suporte a contêineres Docker. Docker é uma plataforma de software que permite criar, testar e implantar aplicações rapidamente. A AWS oferece suporte ao uso do Docker Community Edition de código aberto e do Docker Enterprise Edition baseado em assinatura. Com o Amazon ECS, você pode usar chamadas de API para iniciar e interromper aplicações habilitadas para Docker.
+
+## Amazon Elastic Kubernetes Service (Amazon EKS)
+
+Amazon Elastic Kubernetes Service (Amazon EKS) é um serviço totalmente gerenciado que você pode usar para executar o Kubernetes na AWS.
+
+Kubernetes é um software de código aberto que permite implantar e gerenciar aplicações em contêineres em grande escala. Uma grande comunidade de voluntários mantém o Kubernetes, e a AWS trabalha ativamente em conjunto com a comunidade Kubernetes. À medida que novos recursos e funcionalidades são lançados para aplicações Kubernetes, você pode facilmente aplicar essas atualizações às aplicações gerenciadas pelo Amazon EKS.
+
+## AWS Fargate
+
+AWS Fargate é um mecanismo de computação sem servidor para contêineres. Ele funciona com o Amazon ECS e o Amazon EKS.
+
+Ao usar o AWS Fargate, você não precisa provisionar ou gerenciar servidores. O AWS Fargate gerencia sua infraestrutura de servidor para você. Você pode se concentrar mais em inovar e desenvolver suas aplicações e pagar apenas pelos recursos necessários para executar seus contêineres.
+
+# Resumo do módulo 2
+
+O mais importante primeiro, o que é computação em nuvem e o que a AWS oferece? Definimos a computação em nuvem como a entrega sob demanda de recursos de TI pela Internet com uma definição de preço de pagamento conforme o uso. Isso significa que você pode fazer solicitações de recursos de TI como computação, redes, armazenamento, análise ou outros tipos de recursos, e, em seguida, eles são disponibilizados para você sob demanda. Você não paga pelo recurso adiantado. Em vez disso, você apenas provisiona e paga no final do mês.
+
+A AWS oferece serviços e muitas categorias que você usa juntos para criar suas soluções. Abordamos apenas alguns serviços até agora, você aprendeu sobre o Amazon EC2. Com o EC2, você pode ativar e desativar dinamicamente os servidores virtuais chamados instâncias do EC2. Quando você inicia uma instância do EC2, escolhe a família de instâncias. A família de instâncias determina o hardware em que a instância é executada.
+
+E você pode ter instâncias que são criadas para um propósito específico. As categorias são uso geral, otimizada para computação, otimizada para memória, computação acelerada e otimizada para armazenamento.
+
+Você pode dimensionar suas instâncias do EC2 verticalmente redimensionando a instância ou horizontalmente ao iniciar novas instâncias e adicioná-las ao grupo. Você pode configurar a escalabilidade horizontal automatizada, usando o Amazon EC2 Auto Scaling.
+
+Depois de dimensionar suas instâncias do EC2 horizontalmente, você precisa de algo para distribuir o tráfego de entrada em todas essas instâncias. É aí que entra o Elastic Load Balancer. As instâncias do EC2 têm diferentes modelos de preços. Há a Sob demanda, que é a mais flexível e não tem contrato, com definição de preço spot, o que permite a você utilizar a capacidade não usada a uma taxa descontada; as Savings Plans ou instâncias reservadas, que permitem que você assine um contrato com a AWS para obter uma taxa com desconto ao se comprometer a um determinado nível de uso, e Savings Plans que se aplicam ao AWS Lambda e ao AWS Fargate, bem como às instâncias do EC2.
+
+Também abordamos os serviços de mensagens. Há o Amazon Simple Queue Service ou SQS. Esse serviço permite desacoplar componentes do sistema. As mensagens permanecem na fila até que sejam consumidas ou excluídas. O Amazon Simple Notification Service, ou SNS, é usado para enviar mensagens como e-mails, mensagens de texto, notificações push ou até mesmo solicitações HTTP. Depois que uma mensagem é publicada, ela é enviada a todos esses assinantes.
+
+Você também aprendeu que a AWS tem tipos diferentes de serviços de computação além de apenas servidores virtuais como o EC2. Existem serviços de contêineres como o Amazon Elastic Container Service, ou ECS. E há o Amazon Elastic Kubernetes Service, ou EKS. Ambos são ferramentas de orquestração de contêineres. Você pode usar essas ferramentas com instâncias do EC2, mas se não quiser gerenciar isso, não precisa.
+
+Você pode usar o AWS Fargate, que permite a execução de seus contêineres em uma plataforma de computação sem servidor. Há também o AWS Lambda, que permite que você faça o upload apenas do seu código e configure-o para ser executado com base em triggers. E você é cobrado apenas quando o código está realmente em execução. Sem contêineres, sem máquinas virtuais. Apenas código e configuração.
+
+# Questionário
+
+1. Você deseja usar uma instância do Amazon EC2 para uma carga de trabalho de processamento em lote. Qual seria o melhor tipo de instância do Amazon EC2 a ser usado?
+
+a) Uso geral
+b) Otimizada para memória
+c) Otimizada para computação
+d) Otimizada para armazenamento
+
+## Comentário
+
+A resposta correta é C, Computação otimizada.
+
+As outras respostas estão incorretas porque:
+
+instâncias de uso geral fornecem um equilíbrio de recursos de computação, memória e redes. Essa família de instâncias não seria a melhor escolha para a aplicação nesse cenário. As instâncias otimizadas para computação são mais adequadas para cargas de trabalho de processamento em lote do que instâncias de uso geral.
+
+As instâncias otimizadas para memória são mais ideais para cargas de trabalho que processam grandes conjuntos de dados na memória, como bancos de dados de alta performance.
+
+As instâncias otimizadas para armazenamento foram projetadas para cargas de trabalho que exigem alto acesso sequencial de leitura e gravação a grandes conjuntos de dados no armazenamento local. A questão não especifica o tamanho dos dados que serão processados. O processamento em lote envolve o processamento de dados em grupos. Uma instância otimizada para computação é ideal para esse tipo de carga de trabalho, que se beneficiaria de um processador de alta performance.
+
+2. Quais são as opções de duração do contrato para instâncias reservadas do Amazon EC2? (Selecione DUAS.)
+
+a) 1 ano
+b) 2 anos
+c) 3 anos
+d) 4 anos
+e) 5 anos
+
+## Comentário
+
+As duas respostas corretas são:
+
+Um ano
+Três anos
+Instâncias reservadas exigem um compromisso de um ano ou três anos. A opção de três anos oferece um desconto maior.
+
+3. Você tem uma carga de trabalho que será executada por um total de seis meses e pode suportar interrupções. Qual seria a opção de compra mais econômica do Amazon EC2?
+
+a) Instância reservada
+b) Instância spot
+c) Instância dedicada
+d) Instância sob demanda
+
+## Comentário
+
+A resposta correta é Instância spot.
+
+As outras respostas estão incorretas porque:
+
+Instâncias reservadas exigem uma duração de contrato de um ano ou três anos. A carga de trabalho neste cenário será executada apenas por seis meses.
+Instâncias dedicadas são executadas em uma Virtual Private Cloud (VPC) em hardware dedicado a um único cliente. Elas têm um custo mais alto do que uma das outras respostas, que são executadas em hardware compartilhado.
+As instâncias sob demanda cumprem os requisitos de execução por apenas seis meses e resistem a interrupções. No entanto, uma instância spot seria a melhor escolha porque não requer uma duração mínima de contrato, é capaz de suportar interrupções e custa menos do que uma instância sob-demanda.
+
+4. Qual processo é um exemplo do Elastic Load Balancing?
+
+a) Garantir que nenhuma instância única do Amazon EC2 tenha que carregar a carga de trabalho completa por conta própria
+b) Remover instâncias desnecessárias do Amazon EC2 quando a demanda é baixa
+c) Adicionar uma segunda instância do Amazon EC2 durante a venda popular de uma loja online
+d) Ajustar automaticamente o número de instâncias do Amazon EC2 para atender à demanda
+
+## Comentário
+
+A resposta correta é Garantir que nenhuma instância única do Amazon EC2 tenha que carregar a carga de trabalho completa por conta própria.
+
+Elastic Load Balancing é o serviço da AWS que distribui automaticamente o tráfego de entrada de aplicações entre vários recursos, como instâncias do Amazon EC2. Isso ajuda a garantir que nenhum recurso único seja usado em excesso.
+
+As outras respostas são exemplos de Auto Scaling.
+
+5. Você deseja implantar e gerenciar aplicações em contêineres. Qual serviço você deve usar?
+
+a) AWS Lambda
+b) Amazon Simple Notification Service (Amazon SNS)
+c) Amazon Simple Queue Service (Amazon SQS)
+d) Amazon Elastic Kubernetes Service (Amazon EKS)
+
+## Comentário
+
+A opção de resposta correta é Amazon Elastic Kubernetes Service (Amazon EKS).
+
+O Amazon EKS é um serviço totalmente gerenciado do Kubernetes. Kubernetes é um software de código aberto que permite implantar e gerenciar aplicações em contêineres em grande escala.
+
+As outras respostas estão incorretas porque:
+
+AWS Lambda é um serviço que permite executar código sem provisionar ou gerenciar servidores.
+Amazon Simple Queue Service (Amazon SQS) é um serviço que permite enviar, armazenar e receber mensagens entre componentes de software por meio de uma fila.
+Amazon Simple Notification Service (Amazon SNS) é um serviço de publicação/assinatura. Usando tópicos do Amazon SNS, um editor publica mensagens para assinantes.
