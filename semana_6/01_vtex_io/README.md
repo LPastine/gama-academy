@@ -1,5 +1,3 @@
-# Basic Blocks
-
 # Onboarding
 
 ## Configurando ambiente
@@ -26,4 +24,22 @@ brew install yarn
 
 ```zsh
 yarn global add vtex
+```
+
+- Acessar conta VTEX IO
+
+```zsh
+vtex login hiringcoders2021
+```
+
+- Verificar acesso
+
+```zsh
+vtex whoami
+```
+
+- Usar workspace
+
+```zsh
+vtex use {workspace-name}
 ```
