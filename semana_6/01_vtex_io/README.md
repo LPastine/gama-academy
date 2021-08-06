@@ -43,3 +43,30 @@ vtex whoami
 ```zsh
 vtex use {workspace-name}
 ```
+
+- Criar boilerplate
+
+```zsh
+git clone https://github.com/vtex-apps/minimum-boilerplate-theme.git
+```
+
+- Trocar maninfest.json
+
+```json
+{
+  "vendor": "hiringcoders2021",
+  "name": "my-test-theme"
+}
+```
+
+- Install required apps
+
+```zsh
+vtex install vtex.store-sitemap vtex.store -f
+```
+
+- Conectar a aplicativo
+
+```zsh
+vtex link
+```
