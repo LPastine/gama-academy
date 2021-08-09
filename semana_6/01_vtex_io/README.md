@@ -70,3 +70,7 @@ vtex install vtex.store-sitemap vtex.store -f
 ```zsh
 vtex link
 ```
+
+- Acessar aplicativo no navegador
+
+url: {workspace}--{accountname}.myvtex.com
